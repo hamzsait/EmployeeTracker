@@ -1,7 +1,6 @@
 {
   "name": "employeetracker",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/hamzsait/EmployeeTracker/issues"
   },
-  "homepage": "https://github.com/hamzsait/EmployeeTracker#readme"
+  "homepage": "https://github.com/hamzsait/EmployeeTracker#readme",
+  "description": "",
+  "dependencies": {
+    "inquirer": "^8.0.0",
+    "mysql": "^2.18.1"
+  }
 }
