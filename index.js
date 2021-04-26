@@ -10,21 +10,6 @@ const connection = mysql.createConnection({
 })
 connection.connect((err) => {if(err) throw err})
 
-async function viewEmployees(){
-    connection.query("SELECT * FROM employees", (err,res) =>  {console.table(res); quitOrMenu()})
-    return
-}
-
-async function viewDepartments(){
-    connection.query("SELECT * FROM departments", (err,res) => {console.table(res); quitOrMenu()})
-    return
-}
-
-async function viewRoles(){
-    connection.query("SELECT * FROM roles", (err,res) => {console.table(res); quitOrMenu()})
-    return
-}
-
 var roles
 getRoles()
 async function getRoles(){
@@ -61,14 +46,19 @@ async function getEmployees(){
     })
 }
 
-async function getDepartmentTitles(){
-    connection.query("SELECT * FROM departments", (err,res) => {
-        output = []
-        for (department of [...res]){
-            output.push(department.title)
-        }
-        departmentTitles = output
-    })
+async function viewEmployees(){
+    connection.query("SELECT * FROM employees", (err,res) =>  {console.table(res); quitOrMenu()})
+    return
+}
+
+async function viewDepartments(){
+    connection.query("SELECT * FROM departments", (err,res) => {console.table(res); quitOrMenu()})
+    return
+}
+
+async function viewRoles(){
+    connection.query("SELECT * FROM roles", (err,res) => {console.table(res); quitOrMenu()})
+    return
 }
 
 async function addEmployee(){
