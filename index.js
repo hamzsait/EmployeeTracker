@@ -199,5 +199,3 @@ function quitOrMenu(){
 }
 
 init()
-//getRoles()
-
