@@ -59,7 +59,14 @@ async function getDepartments(){
 }
 
 async function viewEmployees(){
-    connection.query("SELECT * FROM employees", (err,res) =>  {console.table(res); quitOrMenu()})
+    connection.query(
+    `SELECT employees.id, employees.firstName, employees.lastName, departments.name as department, roles.title as role, roles.salary, concat(managers.firstName," ",managers.lastName) as manager
+    FROM (((roles
+    INNER JOIN employees ON roles.id = employees.role_id)
+    INNER JOIN departments ON department_id = departments.id)
+    INNER JOIN managers ON manager_id = managers.id)
+    ORDER BY employees.id;`,
+    (err,res) => {console.table(res); quitOrMenu()})
     return
 }
 
@@ -189,6 +196,17 @@ async function addDepartment(){
     return
 }
 
+async function viewEmployeesByDepartment(){
+    connection.query(
+    `SELECT departments.name, employees.firstName, employees.lastName
+    FROM (roles
+    INNER JOIN employees ON roles.id = employees.role_id)
+    INNER JOIN departments ON department_id = departments.id
+    ORDER BY departments.name`, (err,res) => {
+         console.table(res); quitOrMenu()
+     })
+}
+
 async function addRole(){
     prompts = [
     {
@@ -225,17 +243,6 @@ async function viewEmployeesByRole(){
     `SELECT roles.title, employees.firstName, employees.lastName FROM roles 
      INNER JOIN employees ON roles.id = employees.role_id 
      ORDER BY roles.title;`, (err,res) => {
-         console.table(res); quitOrMenu()
-     })
-}
-
-async function viewEmployeesByDepartment(){
-    connection.query(
-    `SELECT departments.name, employees.firstName, employees.lastName
-    FROM (roles
-    INNER JOIN employees ON roles.id = employees.role_id)
-    INNER JOIN departments ON department_id = departments.id
-    ORDER BY departments.name`, (err,res) => {
          console.table(res); quitOrMenu()
      })
 }
