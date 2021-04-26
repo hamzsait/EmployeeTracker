@@ -57,6 +57,7 @@ async function getDepartments(){
         departments = output
     })
 }
+
 async function viewEmployees(){
     connection.query("SELECT * FROM employees", (err,res) =>  {console.table(res); quitOrMenu()})
     return
@@ -219,6 +220,26 @@ async function addRole(){
     return
 }
 
+async function viewEmployeesByRole(){
+    connection.query(
+    `SELECT roles.title, employees.firstName, employees.lastName FROM roles 
+     INNER JOIN employees ON roles.id = employees.role_id 
+     ORDER BY roles.title;`, (err,res) => {
+         console.table(res); quitOrMenu()
+     })
+}
+
+async function viewEmployeesByDepartment(){
+    connection.query(
+    `SELECT departments.name, employees.firstName, employees.lastName
+    FROM (roles
+    INNER JOIN employees ON roles.id = employees.role_id)
+    INNER JOIN departments ON department_id = departments.id
+    ORDER BY departments.name`, (err,res) => {
+         console.table(res); quitOrMenu()
+     })
+}
+
 async function init(){
     getRoles()
     getManagers()
@@ -232,8 +253,8 @@ async function init(){
             choices: ['----------------------------------',
             'View Employees', 'View Departments','View Roles', '----------------------------------',
             'Add Employee','Delete Employee','Update Employee Role','Update Employee Manager','----------------------------------',
-            'Add Department','----------------------------------',
-            'Add Role','----------------------------------',
+            'Add Department','View Employees by Department','----------------------------------',
+            'Add Role','View Employees by Role','----------------------------------',
             'Quit']
         }
     ).then(answers => {
@@ -274,7 +295,15 @@ async function init(){
             case 'Add Role':
                 addRole()
                 break
-                
+
+            case 'View Employees by Role':
+                viewEmployeesByRole()
+                break
+
+            case 'View Employees by Department':
+                viewEmployeesByDepartment()
+                break
+
             case '----------------------------------':
                 init()
                 break
