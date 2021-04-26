@@ -46,6 +46,17 @@ async function getEmployees(){
     })
 }
 
+var departments
+getDepartments()
+async function getDepartments(){
+    connection.query("SELECT * FROM departments", (err,res) => {
+        output = []
+        for (department of res){
+            output.push(`${department.id} ${department.name}`)
+        }
+        departments = output
+    })
+}
 async function viewEmployees(){
     connection.query("SELECT * FROM employees", (err,res) =>  {console.table(res); quitOrMenu()})
     return
@@ -177,10 +188,42 @@ async function addDepartment(){
     return
 }
 
+async function addRole(){
+    prompts = [
+    {
+        message:"Add Role Title:",
+        type:"input",
+        name:"title"
+    },
+    {
+        message:"Add Role Salary:",
+        type:"input",
+        name:"salary"
+    },
+    {
+        message:"Add Role Department:",
+        type:'list',
+        choices: departments,
+        name:"department"
+    },
+    ]
+    inquirer.prompt(prompts).then(async answers => {
+        newDepartment = [{
+            title: answers.title,
+            salary: Number(answers.salary),
+            department_id: Number(answers.department.split(' ')[0])
+        }]
+        connection.query("INSERT INTO roles SET ?",newDepartment)
+        quitOrMenu()
+    })
+    return
+}
+
 async function init(){
     getRoles()
     getManagers()
     getEmployees()
+    getDepartments()
     inquirer.prompt(
         {
             message: 'Select from the following options:',
@@ -190,6 +233,7 @@ async function init(){
             'View Employees', 'View Departments','View Roles', '----------------------------------',
             'Add Employee','Delete Employee','Update Employee Role','Update Employee Manager','----------------------------------',
             'Add Department','----------------------------------',
+            'Add Role','----------------------------------',
             'Quit']
         }
     ).then(answers => {
@@ -225,6 +269,10 @@ async function init(){
             
             case 'Add Department':
                 addDepartment()
+                break
+            
+            case 'Add Role':
+                addRole()
                 break
                 
             case '----------------------------------':
