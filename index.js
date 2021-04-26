@@ -32,12 +32,14 @@ async function getRoles(){
         for (role of [...res]){
             output.push(role.title)
         }
+        console.log(output)
+        console.log(res)
         return output
     })
 }
 
 async function addEmployee(){
-    roles = await getRoles()
+    var roles = await getRoles()
     prompts = [
     {
         message:"Add Employee First Name:",
