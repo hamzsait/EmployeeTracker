@@ -32,7 +32,6 @@ async function getRoles(){
         for (role of [...res]){
             output.push(role.title)
         }
-        console.log(output)
         return output
     })
 }
