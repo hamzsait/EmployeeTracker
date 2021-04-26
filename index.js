@@ -135,20 +135,64 @@ async function updateEmployeeRole(){
     })
 }
 
-initPrompt = [
+async function updateEmployeeManager(){
+    inquirer.prompt([
+        {
+        type:'list',
+        choices: employees,
+        message:"Which employee would you like to update?",
+        name: 'employee'
+        },
+        {
+        type:'list',
+        choices: managers,
+        message:"Which manager should they be assigned?",
+        name: 'manager'
+        }
+    ]).then(answers => {
+        connection.query("UPDATE employees SET ? WHERE ?",
+        [
+         {manager_id:Number(answers.manager.split(' ')[0])},
+         {id:Number(answers.employee.split(' ')[0])}
+        ])
+        quitOrMenu()
+    })
+}
+
+async function addDepartment(){
+    prompts = [
     {
-        message: 'Select from the following options:',
-        type: 'list',
-        name: 'menuChoice',
-        choices: ['View Employees', 'View Departments','View Roles','Add Employee','Delete Employee','Update Employee Role','Quit']
-    }
-]
+        message:"Add Department Name:",
+        type:"input",
+        name:"name"
+    },
+    ]
+    inquirer.prompt(prompts).then(async answers => {
+        newDepartment = [{
+            name:answers.name
+        }]
+        connection.query("INSERT INTO departments SET ?",newDepartment)
+        quitOrMenu()
+    })
+    return
+}
 
 async function init(){
     getRoles()
     getManagers()
     getEmployees()
-    inquirer.prompt(initPrompt).then(answers => {
+    inquirer.prompt(
+        {
+            message: 'Select from the following options:',
+            type: 'list',
+            name: 'menuChoice',
+            choices: ['----------------------------------',
+            'View Employees', 'View Departments','View Roles', '----------------------------------',
+            'Add Employee','Delete Employee','Update Employee Role','Update Employee Manager','----------------------------------',
+            'Add Department','----------------------------------',
+            'Quit']
+        }
+    ).then(answers => {
         switch (answers.menuChoice){
 
             case 'View Employees':
@@ -175,6 +219,18 @@ async function init(){
                 updateEmployeeRole()
                 break
             
+            case 'Update Employee Manager':
+                updateEmployeeManager()
+                break
+            
+            case 'Add Department':
+                addDepartment()
+                break
+                
+            case '----------------------------------':
+                init()
+                break
+
             case 'Quit':
                 connection.end()
                 break
