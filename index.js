@@ -26,13 +26,50 @@ async function viewRoles(){
     return
 }
 
+async function getRoles(){
+    connection.query("SELECT * FROM roles", (err,res) => {
+        output = []
+        for (role of [...res]){
+            output.push(role.title)
+        }
+        console.log(output)
+        return output
+    })
+}
+
+async function addEmployee(){
+    roles = await getRoles()
+    prompts = [
+    {
+        message:"Add Employee First Name:",
+        type:"input",
+        name:"firstName"
+    },
+    {
+        message:"Add Employee Last Name:",
+        type:"input",
+        name:"lastName"
+    },
+    {
+        message:"Add Employee Role",
+        type:"list",
+        choices:['this','that'],
+        name:'role'
+    },
+    ]
+    inquirer.prompt(prompts).then(answers => {
+        console.log(answers)
+        console.log(roles)
+    })
+}
+
 
 initPrompt = [
     {
         message: 'Select from the following options:',
         type: 'list',
         name: 'menuChoice',
-        choices: ['View Employees', 'View Departments','View Roles']
+        choices: ['View Employees', 'View Departments','View Roles','Add Employee']
     }
 ]
 
@@ -50,6 +87,10 @@ async function init(){
         
             case 'View Roles':
                 viewRoles();
+                break
+            
+            case 'Add Employee':
+                addEmployee();
                 break
         }
     })
@@ -72,4 +113,5 @@ function quitOrMenu(){
 }
 
 init()
+//getRoles()
 
