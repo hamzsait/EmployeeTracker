@@ -1,11 +1,16 @@
 const inquirer = require('inquirer')
 const mysql = require('mysql')
 
+inquirer.prompt({
+    name:'password',
+    type:'input',
+    message:"Please enter your MYSQL password"
+}).then( pass => {
 const connection = mysql.createConnection({
     host: 'localhost',
     port:3306,
     user:'root',
-    password:'root',
+    password: pass.password,
     database:'employeeDB'
 })
 connection.connect((err) => {if(err) throw err})
@@ -341,3 +346,5 @@ function quitOrMenu(){
 }
 
 init()
+
+})
