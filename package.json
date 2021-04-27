@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,9 +17,10 @@
     "url": "https://github.com/hamzsait/EmployeeTracker/issues"
   },
   "homepage": "https://github.com/hamzsait/EmployeeTracker#readme",
-  "description": "",
+  "description": "This week's assignment was to build an employee tracker that could be used in the terminal. This employee tracker connects to an SQL database hosted locally on your machine.",
   "dependencies": {
     "inquirer": "^8.0.0",
     "mysql": "^2.18.1"
-  }
+  },
+  "devDependencies": {}
 }
