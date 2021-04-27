@@ -4,7 +4,9 @@ This week's assignment was to build an employee tracker that could be used in th
 
 ### 1. Getting Started
 
-The first thing you will need to do is download the dependencies required for the employee tracker. To download these run the following command: 
+The first thing you will need to do is run the seedConstructor.sql file and the seedData.sql file in a MySQL terminal or MySQL workbench. 
+
+Next, download the dependencies required for the employee tracker. To download these run the following command: 
 
     npm i
 
