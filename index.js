@@ -248,6 +248,7 @@ async function viewEmployeesByRole(){
 }
 
 async function init(){
+    console.clear()
     getRoles()
     getManagers()
     getEmployees()
@@ -265,6 +266,7 @@ async function init(){
             'Quit']
         }
     ).then(answers => {
+        console.clear()
         switch (answers.menuChoice){
 
             case 'View Employees':
