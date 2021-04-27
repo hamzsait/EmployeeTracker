@@ -1,5 +1,4 @@
 USE employeeDB;
-
 -- Adding departments
 
 INSERT INTO departments(name)

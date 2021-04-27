@@ -30,6 +30,3 @@ CREATE TABLE managers(
     lastName VARCHAR(30),
     department_id INTEGER
 )
-
-
-
